@@ -51,12 +51,21 @@ namespace OOPS
             }
         }
 
-        private bool dateOK(int monthInt, int dayInt, int yearInt)
+         private bool dateOK(int monthInt, int dayInt, int yearInt)
         {
-            return ((monthInt >= 1) && (monthInt <= 12) &&
-                (dayInt >= 1) && (dayInt <= 31) &&
-                (yearInt >= 1000) && (yearInt <= 9999));
+            int[] days31 = new int[] { 1, 3, 5, 7, 8, 10, 12 };
+            int[] days30 = new int[] { 4, 6, 9, 11 };
 
+            return (yearInt > 1000 && yearInt < 9999) &&
+                   ((days31.Contains(monthInt) && dayInt >= 1 && dayInt <= 31) ||
+                   (days30.Contains(monthInt) && dayInt >= 1 && dayInt <= 30) ||
+                   (monthInt == 2 && leapYear(yearInt) && dayInt >= 1 && dayInt <= 29) ||
+                   (monthInt == 2 && !leapYear(yearInt) && dayInt >= 1 && dayInt <= 28));
+        }
+
+        private bool leapYear(int year)
+        {
+            return (year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0);
         }
         
         public void setMonth(int monthNumber)
