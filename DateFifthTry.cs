@@ -51,19 +51,24 @@ namespace OOPS
             }
         }
 
-         private bool dateOK(int monthInt, int dayInt, int yearInt)
+        //Check if it's a valid date.
+        public bool dateOK(int monthInt, int dayInt, int yearInt)
         {
-            int[] days31 = new int[] { 1, 3, 5, 7, 8, 10, 12 };
-            int[] days30 = new int[] { 4, 6, 9, 11 };
-
-            return (yearInt > 1000 && yearInt < 9999) &&
-                   ((days31.Contains(monthInt) && dayInt >= 1 && dayInt <= 31) ||
-                   (days30.Contains(monthInt) && dayInt >= 1 && dayInt <= 30) ||
-                   (monthInt == 2 && leapYear(yearInt) && dayInt >= 1 && dayInt <= 29) ||
-                   (monthInt == 2 && !leapYear(yearInt) && dayInt >= 1 && dayInt <= 28));
+            return yearInt > 1000 && yearInt < 9999 && monthInt > 0 && monthInt < 13 && dayInt > 0 && isValidNoOfDays(monthInt, dayInt, yearInt);
         }
 
-        private bool leapYear(int year)
+        //Check if it's a valid day of month
+        private bool isValidNoOfDays(int month, int day, int year)
+        {
+            int[] totalMonthDays = new int[] { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+            int addDay = 0;
+
+            if (month == 2 && isLeapYear(year)) addDay = 1;
+            return day <= totalMonthDays[month - 1] + addDay;
+        }
+
+        //Check if it's a leap year
+        private bool isLeapYear(int year)
         {
             return (year % 4 == 0) && (year % 100 != 0) || (year % 400 == 0);
         }
