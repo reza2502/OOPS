@@ -58,7 +58,7 @@ namespace OOPS.Inheritance
             this.day++;
             if (this.day > daysInMonth(this.month))
             {
-                this.month++;
+                if (this.month == 12) this.month = 1; else this.month++;
                 this.day = 1;
             }
         }
